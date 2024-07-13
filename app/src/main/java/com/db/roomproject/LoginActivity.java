@@ -23,7 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnLoginOrSignUp;
     UserDao userDao;
-    List<User> testlist;
+    List<User> userList;
     TextView tvSignUpOrLogin;
     boolean loginOrSignUpBtn = true;
     TextView tvName;
@@ -44,28 +44,24 @@ public class LoginActivity extends AppCompatActivity {
                         String name = etLoginId.getText().toString().trim();
                         String email = etEmail.getText().toString().trim();
                         String password = etPassword.getText().toString().trim();
+
                         if (loginOrSignUpBtn) {
-                            if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
+                            if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
                                 User user = new User();
+
 //                                user.setLoginId();
                                 user.setPassword(password);
                                 user.setFullName(name);
                                 user.setEmail(email);
-
                                 userDao.insert(user);
-                                testlist = userDao.getAllUsers();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        // временно для проверки новых пользователей
-                                        for (User user : testlist) {
-                                            tvSignUpOrLogin.append(user.getFullName() + " " + user.getEmail() + " " + user.getPassword() + "\n");
-
-                                        }
                                         Toast.makeText(LoginActivity.this, "created", Toast.LENGTH_SHORT).show();
-
                                     }
                                 });
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
                             } else {
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -75,9 +71,8 @@ public class LoginActivity extends AppCompatActivity {
                                 });
                             }
                         } else {
-                            // для входа
+                            //
                         }
-
                     }
                 });
             }
@@ -85,7 +80,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void init() {
-        userDao = Room.databaseBuilder(this, AppDatabase.class, DbConfig.ROOM_DB_NAME).build().userDao();
+        userDao = Room.databaseBuilder(this, AppDatabase.class, DbConfig.ROOM_DB_NAME)
+//                .fallbackToDestructiveMigration()
+                .build().userDao();
         //.addMigrations(AppDatabase.MIGRATION_1_2)
         etLoginId = findViewById(R.id.logInEditText);
         etPassword = findViewById(R.id.passwordEditText);
@@ -102,15 +99,15 @@ public class LoginActivity extends AppCompatActivity {
             btnLoginOrSignUp.setText("Sign up");
             tvSignUpOrLogin.setText("Or log in");
 
-            tvEmail.setVisibility(View.VISIBLE);
-            etEmail.setVisibility(View.VISIBLE);
+            etLoginId.setVisibility(View.VISIBLE);
+            tvName.setVisibility(View.VISIBLE);
         } else {
             loginOrSignUpBtn = true;
             btnLoginOrSignUp.setText("Log in");
             tvSignUpOrLogin.setText("Or, sign up");
 
-            tvEmail.setVisibility(View.GONE);
-            etEmail.setVisibility(View.GONE);
+            etLoginId.setVisibility(View.GONE);
+            tvName.setVisibility(View.GONE);
         }
     }
 }

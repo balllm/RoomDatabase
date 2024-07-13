@@ -15,14 +15,18 @@ public class Item {
     @ColumnInfo(name = "price")
     public int price;
     @ColumnInfo(name = "image")
-    public int iamge;
+    public int image;
 
-    public Item(String name, String description, int price, int iamge) {
+    public Item(String name, String description, int price, int image) {
         this.name = name;
         this.description = description;
         this.price = price;
-        this.iamge = iamge;
+        this.image = image;
     }
+
+    public Item() {
+    }
+
     public String getName() {
         return name;
     }
@@ -35,8 +39,8 @@ public class Item {
         return price;
     }
 
-    public int getIamge() {
-        return iamge;
+    public int getImage() {
+        return image;
     }
 
     public void setName(String name) {
@@ -51,7 +55,7 @@ public class Item {
         this.price = price;
     }
 
-    public void setIamge(int iamge) {
-        this.iamge = iamge;
+    public void setImage(int image) {
+        this.image = image;
     }
 }
