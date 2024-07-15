@@ -9,6 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +32,10 @@ public class ItemRecyclerView extends RecyclerView.Adapter<ItemRecyclerView.Recy
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         Item item = itemList.get(position);
 
-//        holder.imageView.setImageResource(item.getImage());
+        Glide.with(holder.itemView.getContext())
+                .load(item.getImage())
+                .into(holder.imageView);
+
         holder.nameView.setText(item.getName());
         holder.descView.setText(item.getDescription());
 //        holder.priceView.setText(item.getPrice());

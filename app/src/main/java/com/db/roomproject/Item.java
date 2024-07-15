@@ -15,9 +15,9 @@ public class Item {
     @ColumnInfo(name = "price")
     public int price;
     @ColumnInfo(name = "image")
-    public int image;
+    public String image;
 
-    public Item(String name, String description, int price, int image) {
+    public Item(String name, String description, int price, String image) {
         this.name = name;
         this.description = description;
         this.price = price;
@@ -39,7 +39,7 @@ public class Item {
         return price;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -55,7 +55,7 @@ public class Item {
         this.price = price;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 }

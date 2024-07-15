@@ -13,23 +13,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.CharArrayWriter;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class AddItemActivity extends AppCompatActivity {
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
-    ItemDao itemDao;
-    EditText titleET;
-    EditText priceET;
-    EditText descET;
-    Button btnAddItem;
-    Button BSelectImage;
+    private ItemDao itemDao;
+    private EditText titleET;
+    private EditText priceET;
+    private EditText descET;
+    private Button btnAddItem;
+    private Button BSelectImage;
 
-    ImageView IVPreviewImage;
-    Button button;
+    private ImageView IVPreviewImage;
+    private Button button;
 
-    int SELECT_PICTURE = 200;
+    private static final int SELECT_PICTURE = 200;
+    private Uri selectedImageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,18 +45,18 @@ public class AddItemActivity extends AppCompatActivity {
 
         btnAddItem = findViewById(R.id.AddItem);
         button = findViewById(R.id.taptomain);
+
         BSelectImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 imageChooser();
             }
         });
-
-
-        itemDao = Room.databaseBuilder(this,
+        itemDao = Room.databaseBuilder(getApplicationContext(),
                         AppDatabase.class, DbConfig.ROOM_DB_NAME)
-                .fallbackToDestructiveMigration()
+//                .fallbackToDestructiveMigration()
                 .build().itemDao();
+
         btnAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,19 +67,20 @@ public class AddItemActivity extends AppCompatActivity {
                         item.setName(titleET.getText().toString());
                         item.setDescription(descET.getText().toString());
                         item.setPrice(Integer.parseInt(priceET.getText().toString()));
-                        item.setImage(IVPreviewImage.getImageAlpha());
+                        // добавление через Uri и вывод с помошью Glide в ItemRecyclerView
+                        item.setImage(selectedImageUri.toString());
                         itemDao.insert(item);
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(AddItemActivity.this, "Added item!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddItemActivity.this, "Добавлен товар!", Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 });
             }
         });
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,21 +90,21 @@ public class AddItemActivity extends AppCompatActivity {
         });
     }
 
+    // Метод для выбора изображения из галереи
     void imageChooser() {
         Intent i = new Intent();
         i.setType("image/*");
         i.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(i, "Select Picture"), SELECT_PICTURE);
+        startActivityForResult(Intent.createChooser(i, "Выберите изображение"), SELECT_PICTURE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
+                selectedImageUri = data.getData();
+                if (selectedImageUri != null) {
                     IVPreviewImage.setImageURI(selectedImageUri);
                 }
             }
