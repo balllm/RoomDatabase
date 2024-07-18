@@ -92,6 +92,14 @@
         android:layout_marginTop="20dp"
         />
     <Button
+        android:id="@+id/taptodelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show all items "
+        android:textSize="24sp"
+        android:layout_marginTop="20dp"
+        />
+    <Button
         android:id="@+id/taptomain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

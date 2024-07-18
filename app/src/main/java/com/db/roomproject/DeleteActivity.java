@@ -5,27 +5,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-import java.util.ArrayList;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// Пример MainActivity
-public class MainActivity extends AppCompatActivity {
+public class DeleteActivity extends AppCompatActivity {
 
     private RecyclerView itemRecycler;
-    private ItemRecyclerView itemAdapter;
-    private ItemDao itemDao;
+    private DeleteItemRecyler deleteAdapter;
+    Button button;
+    ItemDao itemDao;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_delete);
         init();
-
 
         executorService.execute(new Runnable() {
             @Override
@@ -34,10 +37,18 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        itemAdapter = new ItemRecyclerView(itemList);
-                        itemRecycler.setAdapter(itemAdapter);
+                        deleteAdapter = new DeleteItemRecyler(itemList, itemDao, executorService);
+                        itemRecycler.setAdapter(deleteAdapter);
                     }
                 });
+            }
+        });
+        button = findViewById(R.id.taptomain);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeleteActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -48,7 +59,5 @@ public class MainActivity extends AppCompatActivity {
         itemDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
 //                .fallbackToDestructiveMigration()
                 .build().itemDao();
-
     }
-
 }

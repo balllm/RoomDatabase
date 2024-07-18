@@ -5,7 +5,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +26,31 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView itemRecycler;
     private ItemRecyclerView itemAdapter;
     private ItemDao itemDao;
+    FloatingActionButton floatingActionButton;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
 
+        Bundle argument = getIntent().getExtras();
+        String email = argument.get("email").toString();
+        Toast.makeText(this, "Hello " + email, Toast.LENGTH_SHORT).show();
 
+        floatingActionButton = findViewById(R.id.floatingBtn);
+        if(email.equals("admin@mail.ru")){
+            floatingActionButton.setVisibility(View.VISIBLE);
+        }else{
+            floatingActionButton.setVisibility(View.GONE);
+        }
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AddItemActivity.class);
+                startActivity(intent);
+            }
+        });
         executorService.execute(new Runnable() {
             @Override
             public void run() {
@@ -48,7 +72,5 @@ public class MainActivity extends AppCompatActivity {
         itemDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
 //                .fallbackToDestructiveMigration()
                 .build().itemDao();
-
     }
-
 }

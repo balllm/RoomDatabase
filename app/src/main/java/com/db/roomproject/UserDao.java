@@ -18,8 +18,11 @@ public interface UserDao {
     @Delete
     void delete(User user);
 
-    @Query("SELECT * FROM user_table WHERE login_id = :userId")
-    User getUserByLoginId(String userId);
+    @Query("SELECT * FROM user_table WHERE email = :emailId")
+    User getUserByLoginId(String emailId);
+    @Query("SELECT * FROM user_table WHERE email = :emailId AND password = :passwordId")
+    User getUserByEmailAndPassword(String emailId, String passwordId);
     @Query("SELECT * FROM " + DbConfig.USER_TABLE)
     List<User> getAllUsers();
+
 }

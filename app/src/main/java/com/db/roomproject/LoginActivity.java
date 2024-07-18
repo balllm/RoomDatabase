@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     UserDao userDao;
     List<User> userList;
     TextView tvSignUpOrLogin;
-    boolean loginOrSignUpBtn = true;
+    boolean loginOrSignUpBtn = false;
     TextView tvName;
     TextView tvEmail;
     EditText etEmail;
@@ -45,11 +45,9 @@ public class LoginActivity extends AppCompatActivity {
                         String email = etEmail.getText().toString().trim();
                         String password = etPassword.getText().toString().trim();
 
-                        if (loginOrSignUpBtn) {
+                        if (loginOrSignUpBtn == false) {
                             if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty()){
                                 User user = new User();
-
-//                                user.setLoginId();
                                 user.setPassword(password);
                                 user.setFullName(name);
                                 user.setEmail(email);
@@ -61,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 });
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.putExtra("email", user.getEmail());
                                 startActivity(intent);
                             } else {
                                 runOnUiThread(new Runnable() {
@@ -71,14 +70,26 @@ public class LoginActivity extends AppCompatActivity {
                                 });
                             }
                         } else {
-                            //
+                            if(!email.isEmpty() && !password.isEmpty()){
+                                User user = userDao.getUserByLoginId(email);
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if(user != null){
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                            intent.putExtra("email", user.getEmail());
+                                            startActivity(intent);
+                                            Toast.makeText(LoginActivity.this, "Hello, " + user.getFullName(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            }
                         }
                     }
                 });
             }
         });
     }
-
     public void init() {
         userDao = Room.databaseBuilder(this, AppDatabase.class, DbConfig.ROOM_DB_NAME)
 //                .fallbackToDestructiveMigration()
@@ -92,7 +103,6 @@ public class LoginActivity extends AppCompatActivity {
         tvEmail = findViewById(R.id.visibleEmail);
         etEmail = findViewById(R.id.emailEditText);
     }
-
     public void loginOrSignUpText(View view) {
         if (loginOrSignUpBtn) {
             loginOrSignUpBtn = false;

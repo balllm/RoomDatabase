@@ -15,6 +15,7 @@ public class User {
     public String fullName;
     @ColumnInfo(name = "email") // email или телефон
     public String email;
+
     public int getId() {
         return id;
     }

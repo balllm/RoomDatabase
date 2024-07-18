@@ -13,13 +13,19 @@
         android:theme="@style/Theme.RoomProject"
         tools:targetApi="31">
         <activity
-            android:name=".LoginActivity"
+            android:name=".UpdateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DeleteActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddItemActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".AddItemActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -27,6 +27,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     private ImageView IVPreviewImage;
     private Button button;
+    private Button deletebtn;
 
     private static final int SELECT_PICTURE = 200;
     private Uri selectedImageUri;
@@ -85,6 +86,14 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddItemActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+        deletebtn = findViewById(R.id.taptodelete);
+        deletebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddItemActivity.this, DeleteActivity.class);
                 startActivity(intent);
             }
         });

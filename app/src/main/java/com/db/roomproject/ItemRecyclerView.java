@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ItemRecyclerView extends RecyclerView.Adapter<ItemRecyclerView.RecyclerViewHolder> {
     private List<Item> itemList;
+    ItemDao itemDao;
 
     public ItemRecyclerView(List<Item> itemList) {
         this.itemList = itemList;
@@ -38,7 +39,8 @@ public class ItemRecyclerView extends RecyclerView.Adapter<ItemRecyclerView.Recy
 
         holder.nameView.setText(item.getName());
         holder.descView.setText(item.getDescription());
-//        holder.priceView.setText(item.getPrice());
+
+        //        holder.priceView.setText(item.getPrice());
     }
 
     @Override

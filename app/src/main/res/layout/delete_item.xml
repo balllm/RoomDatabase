@@ -14,7 +14,7 @@
         <LinearLayout
             android:background="#E1DDDD"
             android:layout_width="160dp"
-            android:layout_height="260dp"
+            android:layout_height="300dp"
             android:orientation="vertical"
             >
             <ImageView
@@ -46,8 +46,15 @@
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Подробнее"
+                android:text="Удалить"
                 android:id="@+id/button"
+                />
+            <Button
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Обновить"
+                android:id="@+id/button2"
                 />
         </LinearLayout>
     </LinearLayout>
