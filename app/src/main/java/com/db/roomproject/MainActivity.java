@@ -34,13 +34,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
 
-    //    Bundle argument = getIntent().getExtras();
-//        String email = argument.get("email").toString();
-    //    Toast.makeText(this, "Hello " + email, Toast.LENGTH_SHORT).show();
+        Bundle argument = getIntent().getExtras();
+        ConfigUser.EMAIL_USER = argument.get("email").toString();
+
+        Toast.makeText(this, "Hello " + ConfigUser.EMAIL_USER, Toast.LENGTH_SHORT).show();
 
         floatingActionButton = findViewById(R.id.floatingBtn);
-        String email = "admin@mail.ru";
-        if(email.equals("admin@mail.ru")){
+        if(ConfigUser.EMAIL_USER.equals("admin@mail.ru")){
             floatingActionButton.setVisibility(View.VISIBLE);
         }else{
             floatingActionButton.setVisibility(View.GONE);

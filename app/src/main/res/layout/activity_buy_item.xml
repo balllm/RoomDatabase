@@ -23,6 +23,20 @@
         android:textSize="22sp"
         android:id="@+id/order"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Final price"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="22sp"
+        android:id="@+id/finalPrice"
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

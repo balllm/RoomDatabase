@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -22,13 +23,12 @@ public class MoreActivity extends AppCompatActivity {
     TextView price;
     TextView description;
     ItemDao itemDao;
+    OrderDao orderDao;
     Item item;
+    Order order;
     int sum;
     int count;
     TextView itemCount;
-    // работает  с String
-    ArrayList<String> addItems = new ArrayList<String>();
-
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +71,9 @@ public class MoreActivity extends AppCompatActivity {
         itemDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
                 .build()
                 .itemDao();
+        orderDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
+                .build()
+                .orderDao();
     }
 
     public void plus(View view) {
@@ -94,21 +97,36 @@ public class MoreActivity extends AppCompatActivity {
     }
 
     public void addtocart(View view) {
-        // с циклом
-//        addItems.add();
-//        for (int i = 0; i < count; i++) {
-//            addItems.add(title.getText().toString()+"#"+count+"#"+price.getText().toString());
-//
-//        }
-        if(count > 0){
-            addItems.add(title.getText().toString()+"#"+count+"#"+price.getText().toString());
-        }
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                Order checkOrder = orderDao.getOrderByNameId(item.getName().toString());
+                if(checkOrder != null){
+                    // если нашел товар с таким же именем => обновляет его количество
+                    int newCheckOrder = checkOrder.getItem_count() + count;
+                    checkOrder.setItem_count(newCheckOrder);
+                    orderDao.update(checkOrder);
+                }else{
+                    order = new Order();
+                    order.setItem_name(item.getName().toString());
+                    order.setPrice(item.getPrice());
+                    order.setItem_count(count);
+                    order.setLogin_id(ConfigUser.EMAIL_USER);
 
+                    orderDao.insert(order);
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MoreActivity.this, "Товар добавлен в корзину", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
     }
 
     public void Checkout(View view) {
         Intent intent = new Intent(MoreActivity.this, BuyItemActivity.class);
-        intent.putExtra("ITEMS_TO_SEND", addItems);
         startActivity(intent);
     }
     public void taptomaina(View view) {

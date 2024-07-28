@@ -6,10 +6,11 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {User.class, Item.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, Item.class, Order.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
     public abstract ItemDao itemDao();
+    public abstract OrderDao orderDao();
     private static volatile AppDatabase INSTANCE;
     public static AppDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
