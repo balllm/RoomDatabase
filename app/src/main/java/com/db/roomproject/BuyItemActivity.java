@@ -31,6 +31,7 @@ public class BuyItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_buy_item);
 
         orderDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
+                //                .fallbackToDestructiveMigration()
                 .build()
                 .orderDao();
         orderList = findViewById(R.id.order);
@@ -56,6 +57,7 @@ public class BuyItemActivity extends AppCompatActivity {
     }
     public void taptomaina(View view) {
         Intent intent = new Intent(BuyItemActivity.this, MainActivity.class);
+        intent.putExtra("email", ConfigUser.EMAIL_USER);
         startActivity(intent);
     }
 }

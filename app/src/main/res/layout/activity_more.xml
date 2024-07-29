@@ -88,7 +88,7 @@
         android:text="Tap to main"
         android:layout_marginTop="16dp"
         android:backgroundTint="#000000"
-        android:onClick="taptomaina"
+        android:onClick="taptomain1"
         />
 
 </LinearLayout>

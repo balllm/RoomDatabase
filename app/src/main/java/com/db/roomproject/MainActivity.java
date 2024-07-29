@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView itemRecycler;
     private ItemRecyclerView itemAdapter;
     private ItemDao itemDao;
+    private OrderDao orderDao;
     FloatingActionButton floatingActionButton;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Override
@@ -35,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
         init();
 
         Bundle argument = getIntent().getExtras();
-        ConfigUser.EMAIL_USER = argument.get("email").toString();
-
-        Toast.makeText(this, "Hello " + ConfigUser.EMAIL_USER, Toast.LENGTH_SHORT).show();
+        if(argument != null){
+            ConfigUser.EMAIL_USER = argument.get("email").toString();
+            Toast.makeText(this, "Hello " + ConfigUser.EMAIL_USER, Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "email не найден", Toast.LENGTH_SHORT).show();
+        }
 
         floatingActionButton = findViewById(R.id.floatingBtn);
         if(ConfigUser.EMAIL_USER.equals("admin@mail.ru")){
@@ -71,7 +75,10 @@ public class MainActivity extends AppCompatActivity {
         itemRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         itemRecycler.setHasFixedSize(true);
         itemDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
-//                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .build().itemDao();
+        orderDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
+                .fallbackToDestructiveMigration()
+                .build().orderDao();
     }
 }
