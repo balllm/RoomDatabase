@@ -16,14 +16,13 @@
         android:textSize="24sp"
         android:textStyle="bold"
         />
-    <TextView
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
-        android:id="@+id/order"
+        android:id="@+id/order_deleteRecycler"
         />
     <TextView
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Final price"
@@ -44,5 +43,13 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="#000000"
         android:onClick="taptomaina"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm order"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#000000"
+        android:id="@+id/confirmBTN"
         />
 </LinearLayout>

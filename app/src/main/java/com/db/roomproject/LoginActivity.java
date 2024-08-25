@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void init() {
         userDao = Room.databaseBuilder(this, AppDatabase.class, DbConfig.ROOM_DB_NAME)
-//                .fallbackToDestructiveMigration()
+                .fallbackToDestructiveMigration()
                 .build().userDao();
         //.addMigrations(AppDatabase.MIGRATION_1_2)
         etLoginId = findViewById(R.id.logInEditText);

@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView itemRecycler;
     private ItemRecyclerView itemAdapter;
     private ItemDao itemDao;
-    private OrderDao orderDao;
     FloatingActionButton floatingActionButton;
     private ExecutorService executorService = Executors.newSingleThreadExecutor();
     @Override
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
             ConfigUser.EMAIL_USER = argument.get("email").toString();
             Toast.makeText(this, "Hello " + ConfigUser.EMAIL_USER, Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(this, "email не найден", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Email не найден", Toast.LENGTH_SHORT).show();
         }
 
         floatingActionButton = findViewById(R.id.floatingBtn);
@@ -75,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
         itemRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         itemRecycler.setHasFixedSize(true);
         itemDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
-                .fallbackToDestructiveMigration()
+//                .fallbackToDestructiveMigration()
                 .build().itemDao();
-        orderDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
-                .fallbackToDestructiveMigration()
-                .build().orderDao();
     }
 }

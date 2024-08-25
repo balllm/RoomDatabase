@@ -72,7 +72,6 @@ public class MoreActivity extends AppCompatActivity {
                 .build()
                 .itemDao();
         orderDao = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, DbConfig.ROOM_DB_NAME)
-//                                .fallbackToDestructiveMigration()
                 .build()
                 .orderDao();
     }
@@ -130,7 +129,7 @@ public class MoreActivity extends AppCompatActivity {
         Intent intent = new Intent(MoreActivity.this, BuyItemActivity.class);
         startActivity(intent);
     }
-    public void taptomain1(View view) {
+    public void taptomaina(View view) {
         Intent intent = new Intent(MoreActivity.this, MainActivity.class);
         intent.putExtra("email", ConfigUser.EMAIL_USER);
         startActivity(intent);
